@@ -3,9 +3,11 @@ package com.example.vaxapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
         //buttons/textViews
         final Button loginButton = findViewById(R.id.LoginButton);
-        final TextView firstName = findViewById(R.id.FirstName);
-        final TextView lastName = findViewById(R.id.LastName);
-        final TextView ssn = findViewById(R.id.SSN);
+        final EditText firstName = findViewById(R.id.FirstName);
+        final EditText lastName = findViewById(R.id.LastName);
+        final EditText ssn = findViewById(R.id.SSN);
 
         //listeners
         final Toast loginToast = Toast.makeText(context, "You have entered an invalid Name/SSN combination", Toast.LENGTH_SHORT);
@@ -30,7 +32,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String passwordAttempt = ssn.getText().toString();
                 if(passwordAttempt.equals(password)){
-                    //transition to app screen
+                    //transition to app screen and clear the current EditText's
+                    firstName.setText("");
+                    lastName.setText("");
+                    ssn.setText("");
+                    Intent myIntent = new Intent(context, ModeSwitch.class);
+                    startActivity(myIntent);
                 }else{
                     //tell the user that the username/password/ssn has been incorrectly entered
                     loginToast.show();
