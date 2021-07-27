@@ -20,6 +20,7 @@ public class ModeSwitch extends AppCompatActivity {
         //buttons/textViews
         final Button scanningModeButton = findViewById(R.id.ScanningModeButton);
         final Button qrCodeButton = findViewById(R.id.QRCodeButton);
+        final Button backButton = findViewById(R.id.ModeSwitchBackButton);
 
         //listeners
         scanningModeButton.setOnClickListener(new View.OnClickListener() {
@@ -33,7 +34,15 @@ public class ModeSwitch extends AppCompatActivity {
         qrCodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(context, ModeSwitch.class);//@TODO
+                Intent myIntent = new Intent(context, ShowQR.class);//
+                startActivity(myIntent);
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, MainActivity.class);
                 startActivity(myIntent);
             }
         });
