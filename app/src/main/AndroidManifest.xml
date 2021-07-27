@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VaxApp">
-        <activity android:name=".ShowQR"></activity>
+        <activity android:name=".Scanner"></activity>
+        <activity android:name=".ShowQR" />
         <activity android:name=".ModeSwitch" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -19,5 +20,6 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>

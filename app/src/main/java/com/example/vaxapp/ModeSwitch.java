@@ -26,7 +26,7 @@ public class ModeSwitch extends AppCompatActivity {
         scanningModeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(context, ModeSwitch.class);//@TODO
+                Intent myIntent = new Intent(context, Scanner.class);
                 startActivity(myIntent);
             }
         });
