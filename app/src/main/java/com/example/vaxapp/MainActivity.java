@@ -1,5 +1,6 @@
 package com.example.vaxapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -15,13 +16,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class MainActivity extends AppCompatActivity {
-    private String password = "1234567890";
+    private String password = "123456789";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Context context = getApplicationContext();
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
         //permissions
         int CAMERA_PERMS = 0;
@@ -42,17 +50,35 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String passwordAttempt = ssn.getText().toString();
-                if(passwordAttempt.equals(password)){
-                    //transition to app screen and clear the current EditText's
-                    firstName.setText("");
-                    lastName.setText("");
-                    ssn.setText("");
-                    Intent myIntent = new Intent(context, ModeSwitch.class);
-                    startActivity(myIntent);
-                }else{
-                    //tell the user that the username/password/ssn has been incorrectly entered
+                if(passwordAttempt.length() != 9){
                     loginToast.show();
+                    return;
                 }
+                String firstNameAttempt = firstName.getText().toString();
+                String lastNameAttempt = lastName.getText().toString();
+
+                String attempt = firstNameAttempt.toLowerCase() + lastNameAttempt.toLowerCase() + passwordAttempt.substring(5);
+                database.child(attempt).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            //transition to app screen and clear the current EditText's
+                            firstName.setText("");
+                            lastName.setText("");
+                            ssn.setText("");
+                            Intent myIntent = new Intent(context, ModeSwitch.class);
+                            startActivity(myIntent);
+                        }else{
+                            //tell the user that the username/password/ssn has been incorrectly entered
+                            loginToast.show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
 
