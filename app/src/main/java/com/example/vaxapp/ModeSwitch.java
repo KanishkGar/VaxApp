@@ -16,6 +16,7 @@ public class ModeSwitch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mode_switch);
         Context context = getApplicationContext();
+        String[] dataArr = getIntent().getStringArrayExtra("dataArr");
 
         //buttons/textViews
         final Button scanningModeButton = findViewById(R.id.ScanningModeButton);
@@ -34,7 +35,8 @@ public class ModeSwitch extends AppCompatActivity {
         qrCodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(context, ShowQR.class);//
+                Intent myIntent = new Intent(context, ShowQR.class);
+                myIntent.putExtra("dataArr", dataArr);
                 startActivity(myIntent);
             }
         });
@@ -42,8 +44,7 @@ public class ModeSwitch extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(context, MainActivity.class);
-                startActivity(myIntent);
+                finish();
             }
         });
     }

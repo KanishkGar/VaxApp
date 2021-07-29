@@ -54,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
                     loginToast.show();
                     return;
                 }
-                String firstNameAttempt = firstName.getText().toString();
-                String lastNameAttempt = lastName.getText().toString();
+                String firstNameAttempt = firstName.getText().toString().toLowerCase();
+                String lastNameAttempt = lastName.getText().toString().toLowerCase();
 
-                String attempt = firstNameAttempt.toLowerCase() + lastNameAttempt.toLowerCase() + passwordAttempt.substring(5);
+                String attempt = firstNameAttempt + lastNameAttempt + passwordAttempt.substring(5);
                 database.child(attempt).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -67,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
                             lastName.setText("");
                             ssn.setText("");
                             Intent myIntent = new Intent(context, ModeSwitch.class);
+                            //send an array with 0: FirstName 1: LastName 2: attempt
+                            String[] dataArr = {firstNameAttempt, lastNameAttempt, attempt};
+                            myIntent.putExtra("dataArr", dataArr);
                             startActivity(myIntent);
                         }else{
                             //tell the user that the username/password/ssn has been incorrectly entered
